@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container" style="margin:40px">
+        <div class="row">
+            <div class="col-sm-10">
+                <h1>Success</h1></br>
+                <p>URL: {{ obj }} </p></br>
+                <p>Shortcode: <a href="{{ obj.get_short_url }}">{{ obj.shortcode }}</a></br>
+                <p>Count: {{ obj.click.count }}</p>
+                <p><a class="btn btn-primary" href="{% url 'shortener:home' %}">Create new</a></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
