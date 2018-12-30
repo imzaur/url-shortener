@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%u(^n27!@0&^10_d0yef$dc@rp(z-xxf8h=7x!o1@sn3tq!r#h'
+# SECRET_KEY = '%u(^n27!@0&^10_d0yef$dc@rp(z-xxf8h=7x!o1@sn3tq!r#h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,12 +43,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'kirr.urls'
@@ -124,5 +126,27 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static_root')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static', 'static_dirs'),
+
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
+
+MEDIA_URL = '/media/'
+
 SHORTCODE_MAX = 15
 SHORTCODE_MIN = 6
+
+
+DEBUG = False
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '%u(^n27!@0&^10_d0yef$dc@rp(z-xxf8h=7x!o1@sn3tq!r#h')
+
+ALLOWED_HOSTS = ['limitless-tor-11172.herokuapp.com','127.0.0.1']
